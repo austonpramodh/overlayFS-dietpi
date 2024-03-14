@@ -7,7 +7,7 @@
 
 
 #Fetch files and install apt packages
-wget https://github.com/austonpramodh/overlayFS-dietpi/raw/master/scripts/get_files.sh
+wget https://github.com/austonpramodh/overlayFS-dietpi/raw/dev/scripts/get_files.sh
 chmod a+rx get_files.sh
 ./get_files.sh
 apt-get -y install fuse lsof
