@@ -12,6 +12,7 @@ if [ -f /etc/wpa_supplicant/wpa_supplicant.conf ]; then
     mv /etc/wpa_supplicant/wpa_supplicant.conf /var/local/
 else
     echo "wpa_supplicant.conf does not exist, creating at /var/local/"
+    mkdir -p /etc/wpa_supplicant/
     touch /var/local/wpa_supplicant.conf
 fi
 
