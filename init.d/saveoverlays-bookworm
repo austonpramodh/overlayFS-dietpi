@@ -162,7 +162,7 @@ function do_stop() {
 
 case "$1" in
   start)
-        log_daemon_msg "Starting $DESC" "$NAME"
+        log_daemon_msg "Starting $DESC" "$NAME\n"
         do_start
         case "$?" in
                 0|1) log_end_msg 0 ;;
@@ -170,7 +170,7 @@ case "$1" in
         esac
         ;;
   stop)
-        log_daemon_msg "Stopping $DESC" "$NAME"
+        log_daemon_msg "Stopping $DESC" "$NAME\n"
         do_stop
         case "$?" in
                 0|1) log_end_msg 0 ;;
@@ -178,7 +178,7 @@ case "$1" in
         esac
         ;;
   sync)
-        log_daemon_msg "Syncing $DESC" "$NAME"
+        log_daemon_msg "Syncing $DESC" "$NAME\n"
         do_sync
         case "$?" in
                 0|1) log_end_msg 0 ;;

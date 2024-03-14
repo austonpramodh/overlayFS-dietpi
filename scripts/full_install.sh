@@ -10,7 +10,7 @@
 wget https://github.com/austonpramodh/overlayFS-dietpi/raw/dev/scripts/get_files.sh
 chmod a+rx get_files.sh
 ./get_files.sh
-apt-get -y install fuse lsof
+apt-get -y install fuse lsof rsync
 
 #start the installs
 ./install_parts.sh
