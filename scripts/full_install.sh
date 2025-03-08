@@ -10,7 +10,8 @@
 wget https://github.com/austonpramodh/overlayFS-dietpi/raw/dev/scripts/get_files.sh
 chmod a+rx get_files.sh
 ./get_files.sh
-apt-get -y install fuse lsof rsync
+apt get update
+apt get -y install fuse lsof rsync
 
 #start the installs
 ./install_parts.sh
@@ -18,7 +19,7 @@ systemctl daemon-reload
 systemctl enable syncoverlayfs.service
 
 #fixup /boot/cmdline.txt
-# sed -i.bak -e "s/$/ noswap fastboot ro/" /boot/cmdline.txt # No /boot/cmdline.txt in dietpi
+sed -i.bak -e "s/$/ noswap fastboot ro/" /boot/cmdline.txt
 
 #update fstab
 ./fixup_fstab.sh

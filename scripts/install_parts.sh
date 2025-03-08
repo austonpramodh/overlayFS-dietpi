@@ -1,8 +1,9 @@
 mv saveoverlays-bookworm saveoverlays
-chmod a+rx saveoverlays mount_overlay rootro movefs.sh fixup_fstab.sh
+chmod a+rx saveoverlays saveoverlays_util mount_overlay rootro movefs.sh fixup_fstab.sh
 cp mount_overlay /usr/local/bin/
 cp saveoverlays /etc/init.d/ 
 cp rootro /usr/local/bin/ 
+cp saveoverlays_util /usr/local/bin/saveoverlays 
 ln -s rootro /usr/local/bin/rootrw 
 cp syncoverlayfs.service /lib/systemd/system/
 
