@@ -26,6 +26,7 @@ Works with DietPi Bookworm!
     ```
     systemctl daemon-reload
     systemctl enable syncoverlayfs.service
+    systemctl enable reload-fstab.service
     ```
 
 1. Change the boot commandline - `sed -i.bak -e "s/$/ noswap fastboot ro/" /boot/cmdline.txt`

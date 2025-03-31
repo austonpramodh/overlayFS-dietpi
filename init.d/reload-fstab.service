@@ -1,0 +1,10 @@
+[Unit]
+Description=Reload systemd daemon after boot
+After=multi-user.target
+
+[Service]
+Type=oneshot
+ExecStart=/bin/systemctl daemon-reload
+
+[Install]
+WantedBy=multi-user.target

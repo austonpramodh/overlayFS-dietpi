@@ -1,4 +1,5 @@
 wget https://github.com/austonpramodh/overlayFS-dietpi/raw/dev/utils/mount_overlay
+wget https://github.com/austonpramodh/overlayFS-dietpi/raw/dev/init.d/reload-fstab.service
 wget https://github.com/austonpramodh/overlayFS-dietpi/raw/dev/utils/rootro
 wget https://github.com/austonpramodh/overlayFS-dietpi/raw/dev/utils/saveoverlays_util
 wget https://github.com/austonpramodh/overlayFS-dietpi/raw/dev/init.d/saveoverlays-bookworm

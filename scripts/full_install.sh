@@ -17,6 +17,7 @@ apt get -y install fuse lsof rsync
 ./install_parts.sh
 systemctl daemon-reload
 systemctl enable syncoverlayfs.service
+systemctl enable reload-fstab.service
 
 #fixup /boot/cmdline.txt
 sed -i.bak -e "s/$/ noswap fastboot ro/" /boot/cmdline.txt
