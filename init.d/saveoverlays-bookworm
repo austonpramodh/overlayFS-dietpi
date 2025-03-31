@@ -96,9 +96,12 @@ function do_sync() {
 		fi
 		for DIR in ${OVERLAYFS}
 		do
+			TMPFS_PREFIX="/overlays"
+			ORIGFS_PREFIX="/orig_fs"
+
 			SOURCE="${DIR}"
-			STAGE="${DIR}_stage"
-			DEST="${DIR}_org"
+			STAGE="${ORIGFS_PREFIX}${DIR}_stage"
+			DEST="${ORIGFS_PREFIX}${DIR}_org"
 			log_action_msg "Syncing ${SOURCE}..."
 			echo "----"                                      >> ${TMPLOG}
 			echo "$NAME sync ${SOURCE} to ${DEST} with options ${SYNCFLAGS} ${SYNCEXCLUDES} at $( date )" >> ${TMPLOG}

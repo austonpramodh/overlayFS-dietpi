@@ -1,38 +1,40 @@
 #!/bin/bash
 DIR="$1"
 [ -z "${DIR}" ] && exit 1 
+
+TMPFS_PREFIX="/overlays"
+ORIGFS_PREFIX="/orig_fs"
+
+TMPFS_DIR_ROOT="${TMPFS_PREFIX}${DIR}_rw"
+ORIGFS_DIR_ROOT="${ORIGFS_PREFIX}${DIR}_org"
+
 MOUNT_OPTIONS="$3"
 if [ -z "${MOUNT_OPTIONS}" ]; then
     MOUNT_OPTIONS="size=512M"  # Assign a default value if MOUNT_OPTIONS is empty
 fi
+
 #if ! grep -q overlay /proc/filesystems
 #then
 #    echo "Filesystem overlay is not available. You need a kernel update: apt-get update && apt-get upgrade"  >&2
 #    exit 2
 #fi
-if [ ! -d "${DIR}_org" ] || [ ! -d "/overlays" ]; then
-    echo "Required directories (${DIR}_org and /overlays) do not exist." >&2
+
+if [ ! -d "${ORIGFS_DIR_ROOT}" ] || [ ! -d "${TMPFS_PREFIX}" ]; then
+    echo "Required directories (${ORIGFS_DIR_ROOT} and /overlays) do not exist." >&2
     exit 1
 fi
-
-TMPFS_PREFIX="/overlays"
-ORIGFS_PREFIX="/orig_fs"
 
 #
 # ro must be the first mount option for root .....
 #
 ROOT_MOUNT=$( awk '$2=="/" { print substr($4,1,2) }' /proc/mounts )
-local orig_dir="${ORIGFS_PREFIX}${DIR}_org"
-
 if [ "$ROOT_MOUNT" != "ro" ]; then
-    /bin/mount --bind ${orig_dir} ${DIR}
+    /bin/mount --bind ${ORIGFS_DIR_ROOT} ${DIR}
 else
     # /bin/mount -o ${MOUNT_OPTIONS} -t tmpfs ramdisk ${DIR}_rw
-    local upper_dir="${TMPFS_PREFIX}${DIR}_rw/upper"
-    local work_dir="${TMPFS_PREFIX}${DIR}_rw/work"
-    /bin/mkdir -p "${upper_dir}"
-    /bin/mkdir -p "${work_dir}"
+    /bin/mkdir -p "${TMPFS_DIR_ROOT}/upper"
+    /bin/mkdir -p "${TMPFS_DIR_ROOT}/work"
 
-    OPTS="-o lowerdir=${orig_dir},upperdir=${upper_dir},workdir=${work_dir}"
+    OPTS="-o lowerdir=${ORIGFS_DIR_ROOT},upperdir=${TMPFS_DIR_ROOT}/upper,workdir=${TMPFS_DIR_ROOT}/work"
     /bin/mount -t overlay ${OPTS} overlay ${DIR}
 fi

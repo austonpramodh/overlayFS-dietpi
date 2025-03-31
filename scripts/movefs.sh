@@ -1,14 +1,14 @@
 TMPFS_PREFIX="/overlays"
 ORIGFS_PREFIX="/orig_fs"
 
-for D in /var /root /home
+for DIR in /var /root /home
 do
-	TMPFS_DIR_ROOT="${TMPFS_PREFIX}${D}"
-	ORIGFS_DIR_ROOT="${ORIGFS_PREFIX}${D}"
+	TMPFS_DIR_ROOT="${TMPFS_PREFIX}${DIR}_rw"
+	ORIGFS_DIR_ROOT="${ORIGFS_PREFIX}${DIR}_org"
 
-	mv -v ${D} ${ORIGFS_DIR_ROOT}_org
-	cd ${ORIGFS_DIR_ROOT}_org
+	mv -v ${D} ${ORIGFS_DIR_ROOT}
+	cd ${ORIGFS_DIR_ROOT}
 	find . | cpio -pdum ${ORIGFS_DIR_ROOT}_stage
-	mkdir -v ${D} ${TMPFS_DIR_ROOT}_rw ${D}/.overlaysync ${ORIGFS_DIR_ROOT}_org/.overlaysync
+	mkdir -p -v ${D} ${TMPFS_DIR_ROOT} ${D}/.overlaysync ${ORIGFS_DIR_ROOT}/.overlaysync
 done
 exit
