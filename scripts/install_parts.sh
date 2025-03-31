@@ -8,6 +8,8 @@ cp saveoverlays_util /usr/local/bin/saveoverlays
 ln -s rootro /usr/local/bin/rootrw 
 cp syncoverlayfs.service /lib/systemd/system/
 
+mkdir -p /var/local/
+
 # If wpa_supplicant.conf exists, move it to /var/local else create wpa_supplicant.conf at /var/local
 if [ -f /etc/wpa_supplicant/wpa_supplicant.conf ]; then
     echo "wpa_supplicant.conf exists, moving to /var/local/"
@@ -19,6 +21,8 @@ else
 fi
 
 ln -s /var/local/wpa_supplicant.conf /etc/wpa_supplicant/wpa_supplicant.conf
+
+
 mv /etc/resolv.conf /var/local/
 ln -s /var/local/resolv.conf /etc/resolv.conf
 touch /var/local/resolv.conf.bak
@@ -27,10 +31,11 @@ if [ -f /etc/resolv.conf.bak ]; then
     echo "resolv.conf.bak exists, moving to /var/local/"
     mv /etc/resolv.conf.bak /var/local/
 fi
-
 ln -s /var/local/resolv.conf.bak /etc/resolv.conf.bak
+
 mv /etc/fake-hwclock.data /var/local/
 ln -s /var/local/fake-hwclock.data /etc/fake-hwclock.data
+
 touch /var/local/mtab
 rm /etc/mtab
 ln -s /var/local/mtab /etc/mtab
