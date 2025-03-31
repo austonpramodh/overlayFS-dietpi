@@ -10,14 +10,8 @@ fi
 #    echo "Filesystem overlay is not available. You need a kernel update: apt-get update && apt-get upgrade"  >&2
 #    exit 2
 #fi
-if [ ! -d "${DIR}_org" ]
-then
-    echo "${DIR}_org does not exist" >&2
-    exit 1
-fi
-if [ ! -d "${DIR}_rw" ]
-then
-    echo "${DIR}_rw does not exist" >&2
+if [ ! -d "${DIR}_org" ] || [ ! -d "${DIR}_rw" ]; then
+    echo "Required directories (${DIR}_org and ${DIR}_rw) do not exist." >&2
     exit 1
 fi
 #
