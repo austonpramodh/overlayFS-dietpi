@@ -10,20 +10,29 @@ fi
 #    echo "Filesystem overlay is not available. You need a kernel update: apt-get update && apt-get upgrade"  >&2
 #    exit 2
 #fi
-if [ ! -d "${DIR}_org" ] || [ ! -d "${DIR}_rw" ]; then
-    echo "Required directories (${DIR}_org and ${DIR}_rw) do not exist." >&2
+if [ ! -d "${DIR}_org" ] || [ ! -d "/overlays" ]; then
+    echo "Required directories (${DIR}_org and /overlays) do not exist." >&2
     exit 1
 fi
+
+TMPFS_PREFIX="/overlays"
+ORIGFS_PREFIX="/orig_fs"
+
 #
 # ro must be the first mount option for root .....
 #
 ROOT_MOUNT=$( awk '$2=="/" { print substr($4,1,2) }' /proc/mounts )
+local orig_dir="${ORIGFS_PREFIX}${DIR}_org"
+
 if [ "$ROOT_MOUNT" != "ro" ]; then
-    /bin/mount --bind ${DIR}_org ${DIR}
+    /bin/mount --bind ${orig_dir} ${DIR}
 else
-    /bin/mount -o ${MOUNT_OPTIONS} -t tmpfs ramdisk ${DIR}_rw
-    /bin/mkdir ${DIR}_rw/upper
-    /bin/mkdir ${DIR}_rw/work
-    OPTS="-o lowerdir=${DIR}_org,upperdir=${DIR}_rw/upper,workdir=${DIR}_rw/work"
+    # /bin/mount -o ${MOUNT_OPTIONS} -t tmpfs ramdisk ${DIR}_rw
+    local upper_dir="${TMPFS_PREFIX}${DIR}_rw/upper"
+    local work_dir="${TMPFS_PREFIX}${DIR}_rw/work"
+    /bin/mkdir -p "${upper_dir}"
+    /bin/mkdir -p "${work_dir}"
+
+    OPTS="-o lowerdir=${orig_dir},upperdir=${upper_dir},workdir=${work_dir}"
     /bin/mount -t overlay ${OPTS} overlay ${DIR}
 fi
