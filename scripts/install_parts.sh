@@ -23,6 +23,7 @@ fi
 ln -s /var/local/wpa_supplicant.conf /etc/wpa_supplicant/wpa_supplicant.conf
 
 
+echo "Moving resolv.conf"
 mv /etc/resolv.conf /var/local/
 ln -s /var/local/resolv.conf /etc/resolv.conf
 touch /var/local/resolv.conf.bak
